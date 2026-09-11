@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apna Sahara - Edit Donor / Users Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --navy: #111a3d;
+            --navy-2: #0d1530;
+            --purple: #6f5bf0;
+            --purple-light: #eeeafd;
+            --blue: #2f7bf6;
+            --blue-light: #e7f0fe;
+            --amber: #f5a623;
+            --amber-light: #fdf1de;
+            --green: #28b463;
+            --green-dark: #219653;
+            --green-light: #e6f7ec;
+            --green-badge-bg: #e6f7ec;
+            --green-badge-text: #1f8a4d;
+            --pink: #e0447a;
+            --pink-light: #fbe7ef;
+            --teal: #17b697;
+            --text-dark: #1c2333;
+            --text-mid: #5b6478;
+            --text-light: #8b93a7;
+            --border: #eef0f4;
+            --bg: #f5f6fa;
+            --white: #ffffff;
+            --radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 264px;
+            background: var(--navy);
+            color: #cfd3e6;
+            display: flex;
+            flex-direction: column;
+            padding: 22px 18px;
+            flex-shrink: 0;
+            transition: transform .28s ease;
+            z-index: 1001;
+        }
+
+        .sidebar-close {
+            display: none;
+            align-self: flex-end;
+            font-size: 22px;
+            color: #9aa1c2;
+            cursor: pointer;
+            margin-bottom: 6px;
+            background: none;
+            border: none;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 13, 30, 0.5);
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 6px 22px 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 22px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 {
+            font-size: 15px;
+            color: #fff;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .brand-text p {
+            font-size: 12px;
+            color: #9aa1c2;
+        }
+
+        .menu-label {
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: #7981a6;
+            font-weight: 600;
+            margin: 6px 10px 10px;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #c3c8de;
+            cursor: pointer;
+            transition: background .15s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-item.active {
+            background: var(--purple);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-spacer {
+            flex: 1;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .topbar {
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hamburger {
+            font-size: 20px;
+            color: var(--text-mid);
+            cursor: pointer;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            position: relative;
+        }
+
+        .bell-wrap {
+            position: relative;
+            font-size: 19px;
+            color: var(--text-mid);
+            cursor: pointer;
+        }
+
+        .bell-dot {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #e0447a;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropdown-panel {
+            position: absolute;
+            top: calc(100% + 14px);
+            right: 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(20, 20, 50, 0.15);
+            width: 300px;
+            padding: 8px 0;
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown-panel.open {
+            display: block;
+        }
+
+        .dropdown-title {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notif-item {
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .notif-item:hover {
+            background: #fafafc;
+        }
+
+        .notif-item:last-child {
+            border-bottom: none;
+        }
+
+        .notif-item p {
+            font-size: 12.5px;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .notif-item span {
+            font-size: 11.5px;
+            color: var(--text-light);
+        }
+
+        .user-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--purple);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .chev {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-left: 2px;
+        }
+
+        .user-menu {
+            width: 180px;
+        }
+
+        .user-menu-item {
+            padding: 11px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-menu-item:hover {
+            background: #fafafc;
+        }
+
+        .user-menu-item.danger {
+            color: #e0447a;
+        }
+
+        .content {
+            padding: 26px 32px 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .page-header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: var(--text-mid);
+            max-width: 520px;
+            line-height: 1.5;
+        }
+
+        .edit-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1.5px solid var(--green);
+            color: var(--green);
+            background: #fff;
+            font-size: 13.5px;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .edit-btn:hover {
+            background: var(--green-light);
+        }
+
+        .edit-btn a {
+            color: inherit;
+        }
+
+        .top-grid {
+            display: block;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .panel {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px rgba(20, 20, 50, 0.04);
+        }
+
+        /* INFO PANEL / FORM */
+        .info-panel {
+            padding: 26px 28px;
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .info-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--green);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .info-header h3 {
+            font-size: 16.5px;
+            font-weight: 800;
+        }
+
+        .form-label {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-control {
+            border: 1.5px solid var(--border);
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            color: var(--text-dark);
+            background: #fafbfc;
+        }
+
+        .form-control:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px var(--green-light);
+            background: #fff;
+        }
+
+        /* FOOTER ACTIONS */
+        .footer-actions {
+            background: var(--green-light);
+            border-radius: var(--radius);
+            padding: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            width: 100%;
+        }
+
+        .btn-solid-green {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .btn-solid-green:hover {
+            background: var(--green-dark);
+        }
+
+        .btn-outline-dark {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            color: var(--text-dark);
+            border: 1.5px solid #d8dbe6;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .btn-outline-dark:hover {
+            background: #fafafc;
+        }
+
+        @media (max-width:900px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-close {
+                display: block;
+            }
+
+            .sidebar-overlay.open {
+                display: block;
+            }
+        }
+
+        @media(max-width:480px) {
+            .page-header {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .footer-actions {
+                flex-direction: column;
+            }
+
+            .info-panel {
+                padding: 20px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-close" onclick="closeSidebar()">✕</button>
+        <div class="brand">
+            <div class="brand-icon">🤝</div>
+            <div class="brand-text">
+                <h1>Apna Sahara</h1>
+            </div>
+        </div>
+
+        <nav>
+            <div class="nav-item" data-page="Dashboard"><a href="/adminDashboard">🏠 Dashboard</a></div>
+
+            <div class="menu-label">MANAGEMENT</div>
+            <div class="nav-item" data-page="Donations"><a href="/adminDonation">📋 Donations</a></div>
+            <div class="nav-item" data-page="Donation Requests"><a href="/donationreq">📄 Donation Requests</a></div>
+            <div class="nav-item" data-page="Organizations"><a href="/adminOrg">🏛 Organizations</a></div>
+            <div class="nav-item " data-page="Donors / Users"><a href="/donor">👥 Donors / Users</a></div>
+            <div class="nav-item" data-page="Donation Categories"><a href="/donateCat">📑 Donation Categories</a></div>
+        </nav>
+    </aside>
+
+    <div class="main">
+        <div class="topbar">
+            <div class="top-left">
+                <div class="hamburger" onclick="openSidebar()">☰</div>
+            </div>
+            <div class="top-right">
+                <div class="bell-wrap" onclick="toggleDropdown('notifDropdown')">
+                    🔔<span class="bell-dot">5</span>
+                    <div class="dropdown-panel" id="notifDropdown">
+                        <div class="dropdown-title">Notifications</div>
+                        <div class="notif-item">
+                            <p>New donation request from Smile Orphanage</p><span>10 mins ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>Rahul Mehta submitted a donation</p><span>1 hour ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>Gokul Gaushala request accepted</p><span>2 hours ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>New organization registered</p><span>3 hours ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>Monthly report is ready</p><span>5 hours ago</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-block" onclick="toggleDropdown('userDropdown')">
+                    <div class="avatar">👤</div>
+                    <div>
+                        <div class="user-name"><%= loggedInUserName %></div>
+                        <div class="user-role"><%= loggedInUserRole %></div>
+                    </div>
+                    <span class="chev">▾</span>
+                    <div class="dropdown-panel user-menu" id="userDropdown">
+                        <div class="user-menu-item"><a href="/adminProfile">👤 My Profile</a></div>
+                        <div class="user-menu-item danger"><a href="/logout">↪ Logout</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-header">
+                <div>
+                    <h1>Edit Donor Profile</h1>
+                    <p>Modify donor details and keep records up to date.</p>
+                </div>
+                <button class="edit-btn"><a href="/donor">Back to Donor</a></button>
+            </div>
+
+            <form action="/editDonor/<%= donor._id %>" method="POST">
+
+                <div class="top-grid">
+                    <div class="panel info-panel">
+
+                        <div class="info-header">
+                            <div class="info-icon">👤</div>
+                            <h3>Edit Donor / User</h3>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Donor Name</label>
+                                <input type="text" name="fullName" class="form-control w-100"
+                                    value="<%= donor.fullName %>">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control w-100"
+                                    value="<%= donor.email %>">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Phone</label>
+                                <input type="text" name="phone" class="form-control w-100"
+                                    value="<%= donor.phone %>">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Gender</label>
+                                <input type="text" name="gender" class="form-control w-100"
+                                    value="<%= donor.gender %>">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">City</label>
+                                <input type="text" name="city" class="form-control w-100"
+                                    value="<%= donor.city %>">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="footer-actions">
+                    <button type="submit" class="btn-solid-green">Update Donor</button>
+                    <a href="/donor" class="btn-outline-dark">Cancel</a>
+                </div>
+
+            </form>
+
+            <footer>© 2026 Apna Sahara. All rights reserved.</footer>
+        </div>
+
+        <script>
+            /* ---------- DROPDOWNS ---------- */
+            function toggleDropdown(id) {
+                const el = document.getElementById(id);
+                const isOpen = el.classList.contains('open');
+                document.querySelectorAll('.dropdown-panel').forEach(d => d.classList.remove('open'));
+                if (!isOpen) el.classList.add('open');
+            }
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.bell-wrap') && !e.target.closest('.user-block')) {
+                    document.querySelectorAll('.dropdown-panel').forEach(d => d.classList.remove('open'));
+                }
+            });
+
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            function openSidebar() {
+                sidebar.classList.add('open');
+                overlay.classList.add('open');
+            }
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            }
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 900) {
+                    closeSidebar();
+                }
+            });
+        </script>
+
+    </div>
+
+</body>
+
+</html>

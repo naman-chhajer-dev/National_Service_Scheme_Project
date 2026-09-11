@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apna Sahara - Register Page</title>
+    <link rel="icon" type="apnasahara.png" href="apnasahara.png">
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: #f0f4f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .page-container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .d1-card {
+            background: #ffffff;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            display: grid;
+            grid-template-columns: 1.14fr 1fr;
+            min-height: 540px;
+        }
+
+        .d1-left {
+            background: linear-gradient(135deg, #0052cc, #00a3ff);
+            position: relative;
+            padding: 50px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .d1-left-circles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .d1-circle-1 {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            bottom: -120px;
+            right: -40px;
+        }
+
+        .d1-circle-2 {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(to bottom, #00c6ff, #0072ff);
+            border-radius: 50%;
+            bottom: 20px;
+            left: 140px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .d1-left h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .d1-left h4 {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        .d1-left p {
+            font-size: 13px;
+            line-height: 1.7;
+            opacity: 0.8;
+            max-width: 340px;
+        }
+
+        .d1-right {
+            padding: 50px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .d1-right h2 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .d1-right p.subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 35px;
+        }
+
+        .d1-input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .d1-input-group i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .d1-input-group input {
+            width: 100%;
+            padding: 15px 16px 15px 48px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+            color: #334155;
+        }
+
+        .d1-input-group input:focus {
+            background: #fff;
+            border-color: #0052cc;
+            box-shadow: 0 0 0 4px rgba(0, 82, 204, 0.1);
+        }
+
+        .d1-btn-primary {
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .d1-btn-primary:hover {
+            background: #0a3a57;
+        }
+
+        .d1-footer {
+            text-align: center;
+            font-size: 13px;
+            margin-top: 35px;
+            color: #64748b;
+        }
+
+        .d1-footer a {
+            color: #00a3ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .d1-card {
+                grid-template-columns: 1fr;
+            }
+
+            .d1-left {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="design1" class="page-container">
+        <div class="d1-card">
+            <div class="d1-left">
+                <div class="d1-left-circles">
+                    <div class="d1-circle-1"></div>
+                    <div class="d1-circle-2"></div>
+                </div>
+                <h2>WELCOME</h2>
+                <h4>Create Your Account</h4>
+                <p>Join our community and start making a difference. Register today to donate, support trusted organizations, and help bring hope to those in need.</p>
+            </div>
+            <div class="d1-right">
+                <h2>Register</h2>
+                <p class="subtitle">Join the Community of Kindness</p>
+                <form action="/register" method="POST">
+                    <div class="d1-input-group">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" placeholder="User Name" name="name" required>
+                    </div>
+                    <div class="d1-input-group">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" placeholder="User Email" name="email" required>
+                    </div>
+                    <div class="d1-input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="d1-pass" placeholder="Password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="d1-btn-primary">Sign up</button>
+                </form>
+
+                <div class="d1-footer">
+                    Already have an account? <a href="/login">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

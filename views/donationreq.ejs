@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apna Sahara - Donation Requests</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <style>
+        :root {
+            --navy: #111a3d;
+            --purple: #6f5bf0;
+            --purple-light: #eeeafd;
+            --blue: #2f7bf6;
+            --blue-light: #e7f0fe;
+            --amber: #f5a623;
+            --amber-light: #fdf1de;
+            --green: #28b463;
+            --green-light: #e6f7ec;
+            --pink: #e0447a;
+            --pink-light: #fbe7ef;
+            --teal: #17b697;
+            --gray: #8b93a7;
+            --gray-light: #eef0f4;
+            --text-dark: #1c2333;
+            --text-mid: #5b6478;
+            --text-light: #8b93a7;
+            --border: #eef0f4;
+            --bg: #f5f6fa;
+            --white: #ffffff;
+            --radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 13, 30, 0.5);
+            z-index: 1000;
+        }
+
+        .sidebar-overlay.open {
+            display: block;
+        }
+
+        .sidebar {
+            width: 264px;
+            background: var(--navy);
+            color: #cfd3e6;
+            display: flex;
+            flex-direction: column;
+            padding: 22px 18px;
+            flex-shrink: 0;
+            transition: transform .28s ease;
+            z-index: 1001;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-close {
+            display: none;
+            align-self: flex-end;
+            font-size: 20px;
+            color: #9aa1c2;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 6px 22px 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 18px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 {
+            font-size: 15px;
+            color: #fff;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .brand-text p {
+            font-size: 12px;
+            color: #9aa1c2;
+        }
+
+        .menu-label {
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: #7981a6;
+            font-weight: 700;
+            margin: 14px 10px 8px;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #c3c8de;
+            cursor: pointer;
+            transition: background .15s ease;
+            position: relative;
+        }
+
+        .nav-item a {
+            color: white;
+            list-style-type: none;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-item.active {
+            background: var(--purple);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .topbar {
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 50;
+        }
+
+        .top-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hamburger {
+            font-size: 20px;
+            color: var(--text-mid);
+            cursor: pointer;
+        }
+
+        .top-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            position: relative;
+        }
+
+        .bell-wrap {
+            position: relative;
+            font-size: 19px;
+            color: var(--text-mid);
+            cursor: pointer;
+        }
+
+        .bell-dot {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #e0447a;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropdown-panel {
+            position: absolute;
+            top: calc(100% + 14px);
+            right: 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(20, 20, 50, 0.15);
+            width: 300px;
+            padding: 8px 0;
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown-panel.open {
+            display: block;
+        }
+
+        .dropdown-title {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notif-item {
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .notif-item:hover {
+            background: #fafafc;
+        }
+
+        .notif-item:last-child {
+            border-bottom: none;
+        }
+
+        .notif-item p {
+            font-size: 12.5px;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .notif-item span {
+            font-size: 11.5px;
+            color: var(--text-light);
+        }
+
+        .user-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--purple);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .chev {
+            color: var(--text-light);
+            font-size: 11px;
+            margin-left: 2px;
+        }
+
+        .user-menu {
+            width: 180px;
+        }
+
+        .user-menu-item {
+            padding: 11px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-menu-item a {
+            text-decoration: none;
+            list-style-type: none;
+            color: black;
+        }
+
+        .user-menu-item:hover {
+            background: #fafafc;
+        }
+
+        .user-menu-item.danger {
+            color: #e0447a;
+        }
+
+        .content {
+            padding: 26px 32px 40px;
+        }
+
+        /* ===== WELCOME + DATE ===== */
+        .top-cards {
+            display: grid;
+            grid-template-columns: 100%;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .welcome {
+            background: linear-gradient(90deg, #eeeafd, #f2effe 60%, #f5f3ff);
+            border-radius: var(--radius);
+            padding: 26px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .welcome h2 {
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .welcome p {
+            font-size: 14px;
+            color: var(--text-mid);
+        }
+
+        .welcome-img {
+            font-size: 56px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .date-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px 22px;
+            box-shadow: 0 1px 3px rgba(20, 20, 50, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .date-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--purple);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .date-label {
+            font-size: 12.5px;
+            color: var(--text-mid);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .date-value {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .date-sub {
+            font-size: 12.5px;
+            color: var(--text-light);
+        }
+
+        /* ===== STAT CARDS ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            width: 287px;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px 18px;
+            box-shadow: 0 1px 3px rgba(20, 20, 50, 0.04);
+            cursor: pointer;
+            transition: transform .12s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .stat-icon.purple {
+            background: var(--purple);
+        }
+
+        .stat-icon.green {
+            background: var(--green);
+        }
+
+        .stat-icon.blue {
+            background: var(--blue);
+        }
+
+        .stat-icon.amber {
+            background: var(--amber);
+        }
+
+        .stat-icon.pink {
+            background: var(--pink);
+        }
+
+        .stat-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-mid);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .stat-link {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--purple);
+        }
+
+        /* ===== MIDDLE GRID ===== */
+        .grid-mid {
+            display: grid;
+            grid-template-columns: 100%;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: 0 1px 3px rgba(20, 20, 50, 0.04);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .panel-header h3 {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .panel-header h3 span {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        select.month-select {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .view-all-link {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--purple);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .view-all-link:hover {
+            text-decoration: underline;
+        }
+
+        .chart-legend-row {
+            display: flex;
+            gap: 22px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .legend-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-mid);
+        }
+
+        .legend-stat b {
+            font-size: 15px;
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .donut-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .donut-legend {
+            width: 100%;
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .donut-legend-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .donut-legend-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .donut-legend-pct {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* recent requests */
+        .req-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .req-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .req-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .req-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .req-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .req-id {
+            font-size: 11.5px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .req-name {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .req-detail {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .req-time {
+            font-size: 11px;
+            color: var(--text-light);
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .badge.pending {
+            background: var(--amber-light);
+            color: #b8790f;
+        }
+
+        .badge.accepted {
+            background: var(--green-light);
+            color: #1f8a4d;
+        }
+
+        .badge.rejected {
+            background: var(--pink-light);
+            color: #c23768;
+        }
+
+        .badge.completed {
+            background: var(--blue-light);
+            color: #2361d6;
+        }
+
+        .view-req-link {
+            display: block;
+            text-align: center;
+            margin-top: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--purple);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .view-req-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== BOTTOM GRID ===== */
+        .grid-bottom {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 700;
+            padding: 0 10px 12px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 13px 10px;
+            font-size: 13px;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr.table-row:hover td {
+            background: #fafafc;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        .qs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .qs-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #fafafc;
+            border-radius: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: background .12s ease;
+        }
+
+        .qs-item:hover {
+            background: #f2f2f7;
+        }
+
+        .qs-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .qs-icon.purple {
+            background: var(--purple);
+        }
+
+        .qs-icon.blue {
+            background: var(--blue);
+        }
+
+        .qs-icon.green {
+            background: var(--green);
+        }
+
+        .qs-icon.amber {
+            background: var(--amber);
+        }
+
+        .qs-title {
+            font-size: 12.5px;
+            color: var(--text-mid);
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .qs-value {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .placeholder-panel {
+            text-align: center;
+            padding: 70px 24px;
+        }
+
+        .placeholder-panel .pi {
+            font-size: 46px;
+            margin-bottom: 16px;
+        }
+
+        .placeholder-panel h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .placeholder-panel p {
+            color: var(--text-mid);
+            font-size: 14px;
+        }
+
+        /* toast */
+        .toast {
+            position: fixed;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--navy);
+            color: #fff;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all .25s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media(max-width:1300px) {
+            .grid-mid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .grid-mid .panel:nth-child(3) {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media(max-width:1100px) {
+            .stats-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .top-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-bottom {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:900px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-close {
+                display: block;
+            }
+
+            .grid-mid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:640px) {
+            .content {
+                padding: 18px 16px 32px;
+            }
+
+            .topbar {
+                padding: 14px 18px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .welcome {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .user-name,
+            .user-role {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-close" onclick="closeSidebar()">✕</button>
+        <div class="brand">
+            <div class="brand-icon">🤝</div>
+            <div class="brand-text">
+                <h1>Apna Sahara</h1>
+            </div>
+        </div>
+
+        <nav>
+            <div class="nav-item " data-page="Dashboard"><a href="/adminDashboard"> 🏠 Dashboard</a></div>
+
+            <div class="menu-label">MANAGEMENT</div>
+            <div class="nav-item" data-page="Donations"><a href="/adminDonation"> 📋</span>
+                    Donations</a></div>
+            <div class="nav-item" data-page="Donation Requests"><a href="/donationreq"> 📄 Donation Requests</a>
+            </div>
+            <div class="nav-item" data-page="Organizations"><a href="/adminOrg"> 🏛 Organizations </a></div>
+            <div class="nav-item" data-page="Donors / Users"><a href="/donor">👥 Donors / Users</a></div>
+            <div class="nav-item" data-page="Donation Categories"><a href="/donateCat"> 📑 Donation Categories</a>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="main">
+        <div class="topbar">
+            <div class="top-left">
+                <div class="hamburger" onclick="openSidebar()">☰</div>
+                <div class="top-title" id="topTitle">Admin Donation Request</div>
+            </div>
+            <div class="top-right">
+                <div class="bell-wrap" onclick="toggleDropdown('notifDropdown')">
+                    🔔<span class="bell-dot">5</span>
+                    <div class="dropdown-panel" id="notifDropdown">
+                        <div class="dropdown-title">Notifications</div>
+                        <div class="notif-item">
+                            <p>New donation request from Smile Orphanage</p><span>10 mins ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>Rahul Mehta submitted a donation</p><span>1 hour ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>Gokul Gaushala request accepted</p><span>2 hours ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>New organization registered</p><span>3 hours ago</span>
+                        </div>
+                        <div class="notif-item">
+                            <p>Monthly report is ready</p><span>5 hours ago</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-block" onclick="toggleDropdown('userDropdown')">
+                    <div class="avatar">👤</div>
+                    <div>
+                        <div class="user-name">
+                            <%= loggedInUserName %>
+                        </div>
+                        <div class="user-role">
+                            <%= loggedInUserRole %>
+                        </div>
+                    </div>
+                    <span class="chev">▾</span>
+                    <div class="dropdown-panel user-menu" id="userDropdown">
+                        <div class="user-menu-item" ><a href="/adminProfile">
+                                👤 My Profile</a></div>
+                        <div class="user-menu-item danger"> <a href="/logout"> ↪ Logout</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div id="dashboardPage">
+
+                <div class="top-cards">
+                    <div class="welcome">
+                        <div>
+                            <h2>Donation Requests</h2>
+                            <p>Dashboard > Donation Requests </p>
+                        </div>
+                        <div class="welcome-img">🖥️📊</div>
+                    </div>
+
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-card" onclick="goTo('Donations')">
+                        <div class="stat-icon purple">🎁</div>
+                        <div class="stat-title">Total Requests</div>
+                        <div class="stat-value">
+                            <%= totalRequests %>
+                        </div>
+                        <div class="stat-link">All donations Requests </div>
+                    </div>
+                    <div class="stat-card" onclick="goTo('Donors / Users')">
+                        <div class="stat-icon green">👥</div>
+                        <div class="stat-title">Pending Requests</div>
+                        <div class="stat-value">
+                            <%= pendingRequests %>
+                        </div>
+                        <div class="stat-link">Awaiting review</div>
+                    </div>
+                    <div class="stat-card" onclick="goTo('Organizations')">
+                        <div class="stat-icon blue">🏛</div>
+                        <div class="stat-title">Approved Requests</div>
+                        <div class="stat-value">
+                            <%= approvedRequests %>
+                        </div>
+                        <div class="stat-link">Approved & active</div>
+                    </div>
+                    <div class="stat-card" onclick="showToast('Filtering pending donations...')">
+                        <div class="stat-icon amber">⏰</div>
+                        <div class="stat-title">Rejected Requests</div>
+                        <div class="stat-value">
+                            <%= rejectedRequests %>
+                        </div>
+                        <div class="stat-link">Rejected requests</div>
+                    </div>
+
+                </div>
+
+                <div class="grid-mid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Recent Donations</h3>
+                            <a href="/addDonationReq"  class="btn btn-primary">
+                                ➕ Add Donation Request
+                            </a>
+                        </div>
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Request ID</th>
+                                        <th>Organization</th>
+                                        <th>Category / Item Needed</th>
+                                        <th>Quantity / Details</th>
+                                        <th>Request Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (requests.length> 0) { %>
+                                        <% requests.forEach(request=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= request.requestId %>
+                                                </td>
+                                                <td>
+                                                    <%= request.organizationName %>
+                                                </td>
+                                                <td>
+                                                    <%= request.donationCategory %>
+                                                </td>
+                                                <td>
+                                                    <%= request.quantity %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(request.requestDate).toLocaleDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%= request.status %>
+                                                </td>
+                                                <td>
+
+                                                    <a href="/editDonationReq/<%= request._id %>"
+                                                        class="btn btn-warning">
+                                                        Edit
+                                                    </a>
+
+                                                    <a href="/deleteDonationRequest/<%= request._id %>"
+   
+   onclick="return confirm('Are you sure you want to delete this request?')" class="btn btn-danger">
+   Delete
+</a>
+
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="7">No donation requests found</td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+            <div id="placeholderPage" style="display:none;">
+                <div class="panel placeholder-panel">
+                    <div class="pi" id="placeholderIcon">📄</div>
+                    <h3 id="placeholderTitle">Page</h3>
+                    <p>This section isn't built yet — connect it to your backend whenever you're ready.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>© 2026 Apna Sahara. All rights reserved.</footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ---------- SIDEBAR ---------- */
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        function openSidebar() { sidebar.classList.add('open'); overlay.classList.add('open'); }
+        function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+        window.addEventListener('resize', () => { if (window.innerWidth > 900) closeSidebar(); });
+
+        const navIcons = {
+            'Dashboard': '🏠', 'Donations': '📋', 'Donation Requests': '📄', 'Organizations': '🏛',
+            'Donors / Users': '👥', 'Donation Categories': '📑', 'Reports & Statistics': '📈',
+            'Settings': '⚙', 'Logout': '↪'
+        };
+
+        function selectNav(el) {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            const page = el.getAttribute('data-page');
+            renderPage(page);
+            if (window.innerWidth <= 900) closeSidebar();
+        }
+
+        function goTo(pageName) {
+            const el = document.querySelector(`.nav-item[data-page="${pageName}"]`);
+            if (el) { selectNav(el); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        }
+
+        function renderPage(page) {
+            const dashboardPage = document.getElementById('dashboardPage');
+            const placeholderPage = document.getElementById('placeholderPage');
+            document.getElementById('topTitle').textContent = page === 'Dashboard' ? 'Admin Dashboard' : page;
+
+            if (page === 'Dashboard') {
+                dashboardPage.style.display = 'block';
+                placeholderPage.style.display = 'none';
+            } else if (page === 'Logout') {
+                showToast('Logging out...');
+                dashboardPage.style.display = 'block';
+                placeholderPage.style.display = 'none';
+                // reset to dashboard nav visually after short delay
+                setTimeout(() => {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    document.querySelector('.nav-item[data-page="Dashboard"]').classList.add('active');
+                    document.getElementById('topTitle').textContent = 'Admin Dashboard';
+                }, 900);
+            } else {
+                dashboardPage.style.display = 'none';
+                placeholderPage.style.display = 'block';
+                document.getElementById('placeholderIcon').textContent = navIcons[page] || '📄';
+                document.getElementById('placeholderTitle').textContent = page;
+            }
+        }
+
+        /* ---------- DROPDOWNS ---------- */
+        function toggleDropdown(id) {
+            const el = document.getElementById(id);
+            const isOpen = el.classList.contains('open');
+            document.querySelectorAll('.dropdown-panel').forEach(d => d.classList.remove('open'));
+            if (!isOpen) el.classList.add('open');
+        }
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.bell-wrap') && !e.target.closest('.user-block')) {
+                document.querySelectorAll('.dropdown-panel').forEach(d => d.classList.remove('open'));
+            }
+        });
+    </script>
+
+</body>
+
+</html>
